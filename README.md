@@ -67,5 +67,4 @@ The application will be accessible locally at `http://127.0.0.1:8000/`.
 
 * **Dashboard View (UI):** `http://127.0.0.1:8000/api/cart/view/`
 * **Add Item Form (UI):** `http://127.0.0.1:8000/api/cart/add/`
-* **REST API Root Endpoint:** `http://127.0.0.1:8000/api/cart/items/`
 * **Django Admin Panel:** `http://127.0.0.1:8000/admin/`
