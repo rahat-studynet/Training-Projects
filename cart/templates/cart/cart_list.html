@@ -50,10 +50,18 @@
             font-weight: 600;
             transition: 0.3s;
             margin-right: 10px;
+            cursor: pointer; /* Ensures it looks clickable even when intercepted */
         }
 
         .btn-admin:hover {
             background-color: #1a252f;
+        }
+
+        .btn-admin.logged-in {
+            background-color: #e74c3c;
+        }
+        .btn-admin.logged-in:hover {
+            background-color: #c0392b;
         }
 
         .button-group {
@@ -156,9 +164,9 @@
     <div class="header-section">
         <h2>Your Shopping Cart</h2>
         <div class="button-group">
-        <a href="/admin/login/?next=/api/cart/view/" class="btn-admin">Admin Login</a>
-        <a href="/api/cart/add/" class="btn-add">+ Add New Item</a>
-    </div>
+            <a href="/admin/login/?next=/api/cart/view/" id="admin-auth-btn" class="btn-admin">Admin Login</a>
+            <a href="/api/cart/add/" class="btn-add">+ Add New Item</a>
+        </div>
 </div>
 
     <div id="message-box" class="message"></div>
@@ -201,10 +209,33 @@
         messageBox.innerText = message;
     }
 
+    // Securely logout via a hidden POST request to bypass Django's GET logout limitations
+    async function handleAdminLogout(event) {
+        event.preventDefault(); // Stop normal link click redirection
+        
+        try {
+            const response = await fetch('/admin/logout/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken() // Pass security token
+                },
+                credentials: 'include'
+            });
+            
+            // Hard refresh the page to completely reset state and drop sessions
+            window.location.reload();
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Fallback link backup redirect if JavaScript post breaks
+            window.location.href = '/admin/logout/?next=/api/cart/view/';
+        }
+    }
+
     // Load all cart items from API
     async function loadCartItems() {
         const tableBody = document.getElementById('cart-table-body');
         const emptyMessage = document.getElementById('empty-message');
+        const adminBtn = document.getElementById('admin-auth-btn');
 
         tableBody.innerHTML = '';
         emptyMessage.style.display = 'none';
@@ -215,6 +246,22 @@
             });
 
             const data = await response.json();
+
+            // Check if user is authenticated via API response status
+            if (response.ok) {
+                adminBtn.innerText = 'Admin Logout';
+                adminBtn.href = '#'; // Neutralize link anchor
+                adminBtn.classList.add('logged-in');
+                
+                // Remove any old event listeners and bind our secure POST logout action
+                adminBtn.removeEventListener('click', handleAdminLogout);
+                adminBtn.addEventListener('click', handleAdminLogout);
+            } else {
+                adminBtn.innerText = 'Admin Login';
+                adminBtn.href = '/admin/login/?next=/api/cart/view/';
+                adminBtn.classList.remove('logged-in');
+                adminBtn.removeEventListener('click', handleAdminLogout);
+            }
 
             // If API gives error, stop here
             if (!response.ok) {
