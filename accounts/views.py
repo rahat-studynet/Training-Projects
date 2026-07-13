@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout as auth_logout
 from django.db.models import Q
 
 from .forms import SignUpForm, SignInForm
@@ -72,3 +72,11 @@ def signin_view(request):
         form = SignInForm()
 
     return render(request, 'accounts/signin.html', {'form': form})
+
+
+def logout_view(request):
+    # Logout current logged-in user
+    auth_logout(request)
+
+    messages.success(request, "You have logged out successfully.")
+    return redirect('accounts-home')

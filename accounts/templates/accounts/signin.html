@@ -2,18 +2,155 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
+
+    <style>
+        /* Basic page reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Page background and center alignment */
+        body {
+            background-color: #f4f6f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        /* Signin card design */
+        .signin-container {
+            background-color: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 10px;
+        }
+
+        /* Message box */
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background-color: #eafaf1;
+            color: #1e8449;
+            border: 1px solid #abebc6;
+        }
+
+        .message.error {
+            background-color: #fdecea;
+            color: #c0392b;
+            border: 1px solid #f5b7b1;
+        }
+
+        /* Form field group */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #7f8c8d;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        /* Submit button */
+        .btn-submit {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* Bottom links */
+        .bottom-links {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .bottom-links a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .home-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
 
+<div class="signin-container">
     <h1>Sign In</h1>
 
     <!-- Show success or error messages -->
     {% if messages %}
         {% for message in messages %}
-            <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">
+            <div class="message {{ message.tags }}">
                 {{ message }}
-            </p>
+            </div>
         {% endfor %}
     {% endif %}
 
@@ -21,27 +158,26 @@
     <form method="POST">
         {% csrf_token %}
 
-        <p>
-            <label>Username or Email:</label><br>
+        <div class="form-group">
+            <label>Username or Email</label>
             {{ form.username_or_email }}
-        </p>
+        </div>
 
-        <p>
-            <label>Password:</label><br>
+        <div class="form-group">
+            <label>Password</label>
             {{ form.password }}
-        </p>
+        </div>
 
-        <button type="submit">Sign In</button>
+        <button type="submit" class="btn-submit">Sign In</button>
     </form>
 
-    <p>
+    <div class="bottom-links">
         Do not have an account?
         <a href="/signup/">Sign Up</a>
-    </p>
+    </div>
 
-    <p>
-        <a href="/">Back to Home</a>
-    </p>
+    <a href="/" class="home-link">Back to Home</a>
+</div>
 
 </body>
 </html>

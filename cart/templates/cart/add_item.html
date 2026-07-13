@@ -88,17 +88,47 @@
             cursor: not-allowed;
         }
 
-        .btn-back {
-            display: block;
-            text-align: center;
+        /* Link button row */
+        .link-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
             margin-top: 15px;
+        }
+
+        /* Back button */
+        .btn-back {
+            flex: 1;
+            text-align: center;
             color: #3498db;
             text-decoration: none;
             font-size: 14px;
+            padding: 10px;
+            border: 1px solid #3498db;
+            border-radius: 6px;
+        }
+        
+        /* Back button hover */
+        .btn-back:hover {
+            background-color: #ecf6fd;
+            text-decoration: underline;
         }
 
-        .btn-back:hover {
-            text-decoration: underline;
+        /* Logout button */
+        .btn-logout {
+            flex: 1;
+            text-align: center;
+            color: white;
+            background-color: #e74c3c;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        /* Logout button hover */
+        .btn-logout:hover {
+            background-color: #c0392b;
         }
 
         .message {
@@ -157,7 +187,11 @@
         <button type="submit" id="submit-btn" class="btn-submit">Add to Cart</button>
     </form>
 
-    <a href="/api/cart/view/" class="btn-back">⬅ Back to Cart View</a>
+    <div class="link-row">
+        <a href="/api/cart/view/" class="btn-back">⬅ Back to Cart</a>
+        <a href="/logout/" class="btn-logout">Logout</a>
+    </div>
+
 </div>
 
 <script>
