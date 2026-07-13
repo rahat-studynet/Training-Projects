@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body>
+
+    <h1>Create Account</h1>
+
+    <!-- Show form errors -->
+    {% if form.errors %}
+        <div style="color: red;">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <!-- Signup form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            <label>Username:</label><br>
+            {{ form.username }}
+        </p>
+
+        <p>
+            <label>Email:</label><br>
+            {{ form.email }}
+        </p>
+
+        <p>
+            <label>Password:</label><br>
+            {{ form.password }}
+        </p>
+
+        <p>
+            <label>Confirm Password:</label><br>
+            {{ form.confirm_password }}
+        </p>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p>
+        Already have an account?
+        <a href="/signin/">Sign In</a>
+    </p>
+
+</body>
+</html>

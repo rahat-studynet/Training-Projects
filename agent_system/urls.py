@@ -22,9 +22,12 @@ def universal_url_error_handler(request, exception=None):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Navpage.urls')),
-    path('api/cart/', include('cart.urls')),
 
+    path('', include('accounts.urls')),
+    path('pages/', include('Navpage.urls')),
+
+    path('api/cart/', include('cart.urls')),
+    
     # Catching any broken URL pattern that does not match above paths
     re_path(r'^.*$', universal_url_error_handler),
 ]

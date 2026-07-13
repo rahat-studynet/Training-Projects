@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cart',
     'rest_framework.authtoken',
+    'accounts',
 ]
 
 # Global REST Framework configuration for authentication and permissions
@@ -114,6 +115,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_URL = '/signin/'
+LOGIN_REDIRECT_URL = '/api/cart/view/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Internationalization
