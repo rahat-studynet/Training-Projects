@@ -47,43 +47,42 @@ The system allows users to sign up, but new users cannot access the cart system 
 
 ---
 
-#### 📋 Installation & Local Setup
+# 📋 Installation & Local Setup
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 git clone https://github.com/rahat-studynet/Training-Projects
 cd "Training Projects"
 
 
-## 2. Set Up a Virtual Environment
-# Create the virtual environment
+### 2. Set Up a Virtual Environment
 python -m venv .venv
 
-# Activate the environment on Windows PowerShell
+#### Activate the environment on Windows PowerShell
 .\.venv\Scripts\Activate.ps1
 
-# Activate the environment on Mac/Linux
+#### Activate the environment on Mac/Linux
 source .venv/bin/activate
 
 
-## 3. Install Dependencies
+### 3. Install Dependencies
 pip install -r requirements.txt
 
 
-## 4. Run Database Migrations
+### 4. Run Database Migrations
 python manage.py migrate
 
-## 5. Create a Superuser
+### 5. Create a Superuser
 Create an admin account to approve new users and manage the system.
 python manage.py createsuperuser
 
-## 6. Start the Development Server
+### 6. Start the Development Server
 python manage.py runserver
 
 The application will be accessible locally at:
 http://127.0.0.1:8000/
 🔐 User Approval Workflow
 
-# Step 1: User Sign Up
+## Step 1: User Sign Up
 
 A new user goes to:
 http://127.0.0.1:8000/signup/
@@ -100,7 +99,7 @@ Not Verified
 
 This means the user cannot sign in yet.
 
-# Step 2: Admin Approval
+## Step 2: Admin Approval
 
 Admin goes to:
 
@@ -112,7 +111,7 @@ After approval, the user status becomes:
 
 Verified
 
-# Step 3: User Sign In
+## Step 3: User Sign In
 
 Approved users can sign in from:
 
@@ -123,7 +122,7 @@ After successful login, the user is redirected to the cart dashboard:
 http://127.0.0.1:8000/api/cart/view/
 
 
-### Key UI Endpoints
+## Key UI Endpoints
 
 | Page               | URL                                    |
 | ------------------ | -------------------------------------- |
@@ -136,7 +135,7 @@ http://127.0.0.1:8000/api/cart/view/
 | Django Admin Panel | `http://127.0.0.1:8000/admin/`         |
 
 
-### Key API Endpoints
+## Key API Endpoints
 
 | Method | Endpoint                | Description                  |
 | ------ | ----------------------- | ---------------------------- |
@@ -148,7 +147,7 @@ http://127.0.0.1:8000/api/cart/view/
 | DELETE | `/api/cart/items/<id>/` | Delete a cart item           |
 
 
-### Postman API Testing
+# Postman API Testing
 
 The API can be tested using Token Authentication.
 
@@ -175,7 +174,7 @@ Example JSON body for adding an item:
 }
 
 
-### ⚠️ Error Handling
+# ⚠️ Error Handling
 
 The system returns clean structured error messages for common issues such as:
 
@@ -200,7 +199,7 @@ Example error response:
   "suggestion": "Please check product_id, product_name, quantity, and price."
 }
 
-#### Main Project Structure
+# Main Project Structure
 
 TRAINING PROJECTS/
 │
