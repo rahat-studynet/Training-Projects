@@ -66,7 +66,12 @@ def signin_view(request):
 
             # Login approved user
             login(request, user)
-            return redirect('/api/cart/view/')
+
+            # Redirect user based on role
+            if user.is_staff:
+                return redirect('admin-dashboard')
+
+            return redirect('products')
 
     else:
         form = SignInForm()

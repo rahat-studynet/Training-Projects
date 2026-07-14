@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.decorators import login_required
@@ -41,3 +42,18 @@ def cart_list_screen(request):
 def add_item_screen(request):
     """Renders the Add Item Form UI Page"""
     return render(request, 'cart/add_item.html')
+
+
+@login_required(login_url='/signin/')
+def admin_dashboard_view(request):
+    # Show admin dashboard only for staff/admin users
+    if not request.user.is_staff:
+        return HttpResponseForbidden("You are not allowed to access the admin dashboard.")
+
+    return render(request, 'cart/admin_dashboard.html')
+
+
+@login_required(login_url='/signin/')
+def product_list_view(request):
+    # Show product list page for regular logged-in users
+    return render(request, 'cart/product_list.html')

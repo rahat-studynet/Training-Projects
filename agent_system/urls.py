@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import status
+from cart import views as cart_views
 
 
 # Custom fallback function when a user hits an invalid URL or misses a slash
@@ -25,6 +26,9 @@ urlpatterns = [
 
     path('', include('accounts.urls')),
     path('pages/', include('Navpage.urls')),
+
+    path('admin-dashboard/', cart_views.admin_dashboard_view, name='admin-dashboard'),
+    path('products/', cart_views.product_list_view, name='products'),
 
     path('api/cart/', include('cart.urls')),
     
