@@ -3,13 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+
+    <style>
+        /* Basic page reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef3f8, #f8fbff);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        /* Top navigation bar */
+        .navbar {
+            height: 68px;
+            background: linear-gradient(135deg, #1f3b4d, #263f54);
+            color: white;
+            padding: 0 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .brand h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+            background-color: #ff4d3d;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #d9362a;
+        }
+
+        /* Main wrapper */
+        .container {
+            max-width: 1050px;
+            margin: 28px auto;
+            padding: 0 20px;
+        }
+
+        /* Compact welcome section */
+        .hero-card {
+            background-color: white;
+            border-radius: 18px;
+            padding: 26px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(31, 59, 77, 0.08);
+            margin-bottom: 22px;
+        }
+
+        .hero-text h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            color: #1f3b4d;
+        }
+
+        .hero-text p {
+            max-width: 680px;
+            color: #6d7f8f;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .hero-badge {
+            background-color: #eaf4fc;
+            color: #2980b9;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid #cfe7f8;
+            white-space: nowrap;
+        }
+
+        /* Small statistics cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px 22px;
+            min-height: 105px;
+            box-shadow: 0 8px 22px rgba(31, 59, 77, 0.07);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(31, 59, 77, 0.12);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .icon-blue {
+            background-color: #eaf4fc;
+            color: #3498db;
+        }
+
+        .icon-green {
+            background-color: #eafaf1;
+            color: #27ae60;
+        }
+
+        .icon-orange {
+            background-color: #fff3e6;
+            color: #e67e22;
+        }
+
+        .stat-info h3 {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .stat-info p {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1f3b4d;
+        }
+
+        /* Quick action panel */
+        .action-section {
+            background-color: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(31, 59, 77, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+            color: #1f3b4d;
+        }
+
+        .section-header span {
+            color: #95a5a6;
+            font-size: 13px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .action-card {
+            text-decoration: none;
+            border-radius: 15px;
+            padding: 18px;
+            min-height: 125px;
+            transition: 0.3s;
+            border: 1px solid #e6edf3;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+        }
+
+        .action-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #1f3b4d;
+        }
+
+        .action-card p {
+            font-size: 13px;
+            color: #6d7f8f;
+            line-height: 1.5;
+        }
+
+        .action-arrow {
+            position: absolute;
+            right: 18px;
+            bottom: 14px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #95a5a6;
+        }
+
+        .blue-action {
+            background: linear-gradient(135deg, #eef8ff, #ffffff);
+            border-color: #bfe4fb;
+        }
+
+        .green-action {
+            background: linear-gradient(135deg, #effcf5, #ffffff);
+            border-color: #b8ebd0;
+        }
+
+        .orange-action {
+            background: linear-gradient(135deg, #fff6ed, #ffffff);
+            border-color: #f5d2a7;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 850px) {
+            .hero-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .stats-grid,
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Admin Dashboard</h1>
-    <p>Only admin users can access this page.</p>
+    <div class="navbar">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <h2>Admin Panel</h2>
+        </div>
 
-    <a href="/logout/">Logout</a>
+        <a href="/logout/" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="container">
+
+        <div class="hero-card">
+            <div class="hero-text">
+                <h1>Admin Dashboard</h1>
+                <p>
+                    Manage products, update stock, and control the product content shown to regular users
+                    from one clean dashboard.
+                </p>
+            </div>
+
+            <div class="hero-badge">
+                Staff Access
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-blue">P</div>
+                <div class="stat-info">
+                    <h3>Total Products</h3>
+                    <p>{{ total_products }}</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-green">S</div>
+                <div class="stat-info">
+                    <h3>Total Stock</h3>
+                    <p>{{ total_stock }}</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-orange">C</div>
+                <div class="stat-info">
+                    <h3>Cart Items</h3>
+                    <p>{{ total_cart_items }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+                <span>Choose an action to continue</span>
+            </div>
+
+            <div class="action-grid">
+                <a href="/admin-products/" class="action-card blue-action">
+                    <h3>Manage Products</h3>
+                    <p>View, edit, and delete all products from the product management page.</p>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="/admin-products/add/" class="action-card green-action">
+                    <h3>Add New Product</h3>
+                    <p>Create a new product with image, description, price, and stock quantity.</p>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="/admin/" class="action-card orange-action">
+                    <h3>Django Admin</h3>
+                    <p>Approve new users and manage backend data from the Django admin panel.</p>
+                    <div class="action-arrow">→</div>
+                </a>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

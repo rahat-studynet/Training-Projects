@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Product Management</title>
+
+    <style>
+        /* Basic page reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Page background */
+        body {
+            background-color: #f4f6f9;
+            padding: 40px;
+            color: #333;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Header section */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Button group */
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-add {
+            background-color: #2ecc71;
+        }
+
+        .btn-add:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-dashboard {
+            background-color: #3498db;
+        }
+
+        .btn-dashboard:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-logout {
+            background-color: #e74c3c;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
+        /* Table design */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .product-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .no-image {
+            color: #95a5a6;
+            font-size: 13px;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        /* Message box */
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background-color: #eafaf1;
+            color: #1e8449;
+            border: 1px solid #abebc6;
+        }
+
+        .message.error {
+            background-color: #fdecea;
+            color: #c0392b;
+            border: 1px solid #f5b7b1;
+        }
+
+        /* Action buttons */
+        .action-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit {
+            background-color: #3498db;
+        }
+
+        .btn-edit:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Product Management</h1>
+
+        <div class="button-group">
+            <a href="/admin-dashboard/" class="btn btn-dashboard">Dashboard</a>
+            <a href="/admin-products/add/" class="btn btn-add">+ Add Product</a>
+            <a href="/logout/" class="btn btn-logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Show success or error messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if products %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+                            {% else %}
+                                <span class="no-image">No image</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td>{{ product.created_at }}</td>
+                        <td>
+                            <div class="action-group">
+                                <a href="/admin-products/edit/{{ product.id }}/" class="btn btn-edit">
+                                    Edit
+                                </a>
+
+                                <form method="POST" action="/admin-products/delete/{{ product.id }}/">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-delete">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-message">
+            No products have been added yet.
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
