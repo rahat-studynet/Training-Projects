@@ -41,11 +41,16 @@ class SignUpForm(forms.Form):
             if len(password) < 8:
                 raise forms.ValidationError("Password must be at least 8 characters long.")
 
-            if not any(char.isalpha() for char in password):
-                raise forms.ValidationError("Password must contain at least one letter.")
+            if not any(char.isupper() for char in password):
+                raise forms.ValidationError("Password must contain at least one capital letter.")
 
             if not any(char.isdigit() for char in password):
                 raise forms.ValidationError("Password must contain at least one number.")
+
+            special_characters = "!@#$%^&*()_+-=[]{}|;:,.<>?/"
+
+            if not any(char in special_characters for char in password):
+                raise forms.ValidationError("Password must contain at least one special character.")
 
         return cleaned_data
 
