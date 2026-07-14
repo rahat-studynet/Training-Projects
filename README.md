@@ -509,7 +509,6 @@ TRAINING PROJECTS/
 │           ├── cart_list.html
 │           └── add_item.html
 │
-├── Navpage/
 ├── media/
 │   └── product_images/
 │

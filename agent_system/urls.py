@@ -27,7 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('accounts.urls')),
-    path('pages/', include('Navpage.urls')),
 
     path('admin-dashboard/', cart_views.admin_dashboard_view, name='admin-dashboard'),
     path('admin-products/', cart_views.admin_product_list_view, name='admin-products'),
