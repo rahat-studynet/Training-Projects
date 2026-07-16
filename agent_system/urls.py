@@ -59,6 +59,9 @@ urlpatterns = [
     path("decrease-cart/<int:item_id>/", cart_views.decrease_cart_quantity_view, name="decrease-cart"),
     path("checkout/", cart_views.checkout_view, name="checkout"),
 
+    # Accounts API routes for Postman
+    path("api/accounts/", include("accounts.api_urls")),
+
     # DRF cart API routes for Postman
     path("api/cart/", include("cart.urls")),
 ]
