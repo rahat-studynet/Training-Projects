@@ -20,9 +20,9 @@
             color: #333;
         }
 
-        /* Main container */
+        /* Main white card */
         .container {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 0 auto;
             background-color: white;
             padding: 30px;
@@ -30,27 +30,35 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* Header section */
+        /* Page header */
         .header-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             border-bottom: 2px solid #f0f2f5;
             padding-bottom: 15px;
         }
 
         h1 {
             color: #2c3e50;
+            font-size: 28px;
         }
 
+        .page-caption {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        /* Top buttons */
         .button-group {
             display: flex;
             gap: 10px;
         }
 
         .btn {
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 6px;
             text-decoration: none;
             color: white;
@@ -86,7 +94,7 @@
 
         .btn-remove {
             background-color: #e74c3c;
-            padding: 7px 12px;
+            padding: 8px 12px;
             font-size: 13px;
         }
 
@@ -96,10 +104,11 @@
 
         /* Message box */
         .message {
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 6px;
             margin-bottom: 15px;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .message.success {
@@ -114,7 +123,12 @@
             border: 1px solid #f5b7b1;
         }
 
-        /* Table design */
+        /* Table wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        /* Cart table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -135,9 +149,13 @@
             text-transform: uppercase;
         }
 
+        td {
+            font-size: 14px;
+        }
+
         .product-img {
-            width: 70px;
-            height: 70px;
+            width: 68px;
+            height: 68px;
             object-fit: cover;
             border-radius: 6px;
             border: 1px solid #ddd;
@@ -148,22 +166,22 @@
             font-size: 13px;
         }
 
-        .empty-message {
-            text-align: center;
-            padding: 30px;
-            color: #95a5a6;
-            font-style: italic;
-        }
-
-        .grand-total {
-            text-align: right;
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
+        .product-name {
+            font-weight: 700;
             color: #2c3e50;
         }
 
-        /* Quantity control buttons */
+        .price {
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .item-total {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        /* Quantity control */
         .quantity-control {
             display: flex;
             align-items: center;
@@ -190,6 +208,47 @@
             min-width: 25px;
             text-align: center;
             font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Grand total section */
+        .grand-total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        /* Empty cart message */
+        .empty-message {
+            text-align: center;
+            padding: 35px;
+            color: #95a5a6;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .button-group {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -197,8 +256,13 @@
 <body>
 
 <div class="container">
+
+    <!-- Page title and user action buttons -->
     <div class="header-section">
-        <h1>My Cart</h1>
+        <div>
+            <h1>My Cart</h1>
+            <p class="page-caption">Review your selected products, update quantity, remove items, or continue checkout.</p>
+        </div>
 
         <div class="button-group">
             <a href="/products/" class="btn btn-products">Products</a>
@@ -207,7 +271,7 @@
         </div>
     </div>
 
-    <!-- Show success or error messages -->
+    <!-- Success or error messages -->
     {% if messages %}
         {% for message in messages %}
             <div class="message {{ message.tags }}">
@@ -216,71 +280,79 @@
         {% endfor %}
     {% endif %}
 
+    <!-- Cart item table -->
     {% if cart_data %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for row in cart_data %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            {% if row.item.product.image %}
-                                <img src="{{ row.item.product.image.url }}" alt="{{ row.item.product.name }}" class="product-img">
-                            {% else %}
-                                <span class="no-image">No image</span>
-                            {% endif %}
-                        </td>
-
-                        <td>{{ row.item.product.name }}</td>
-                        <td>BDT {{ row.item.product.price }}</td>
-                        <td>
-                            <div class="quantity-control">
-                                <form method="POST" action="/decrease-cart/{{ row.item.id }}/">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn-quantity">-</button>
-                                </form>
-
-                                <span class="quantity-number">{{ row.item.quantity }}</span>
-
-                                <form method="POST" action="/increase-cart/{{ row.item.id }}/">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn-quantity">+</button>
-                                </form>
-                            </div>
-                        </td>
-                        <td>BDT {{ row.item_total }}</td>
-
-                        <td>
-                            <form method="POST" action="/remove-from-cart/{{ row.item.id }}/">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-remove">
-                                    Remove
-                                </button>
-                            </form>
-                        </td>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
 
+                <tbody>
+                    {% for row in cart_data %}
+                        <tr>
+                            <td>
+                                {% if row.item.product.image %}
+                                    <img src="{{ row.item.product.image.url }}" alt="{{ row.item.product.name }}" class="product-img">
+                                {% else %}
+                                    <span class="no-image">No image</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="product-name">{{ row.item.product.name }}</td>
+
+                            <td class="price">BDT {{ row.item.product.price }}</td>
+
+                            <td>
+                                <div class="quantity-control">
+                                    <form method="POST" action="/decrease-cart/{{ row.item.id }}/">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-quantity">-</button>
+                                    </form>
+
+                                    <span class="quantity-number">{{ row.item.quantity }}</span>
+
+                                    <form method="POST" action="/increase-cart/{{ row.item.id }}/">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-quantity">+</button>
+                                    </form>
+                                </div>
+                            </td>
+
+                            <td class="item-total">BDT {{ row.item_total }}</td>
+
+                            <td>
+                                <form method="POST" action="/remove-from-cart/{{ row.item.id }}/">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-remove" onclick="return confirm('Remove this item from your cart?');">
+                                        Remove
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Grand total amount -->
         <div class="grand-total">
             Grand Total: BDT {{ grand_total }}
         </div>
 
     {% else %}
         <div class="empty-message">
-            Your cart is empty.
+            Your cart is empty. Please add products before checkout.
         </div>
     {% endif %}
+
 </div>
 
 </body>

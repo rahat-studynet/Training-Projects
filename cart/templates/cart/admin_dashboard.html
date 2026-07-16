@@ -54,15 +54,31 @@
             font-weight: 700;
         }
 
-        .logout-btn {
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
             color: white;
             text-decoration: none;
-            background-color: #ff4d3d;
             padding: 9px 16px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             transition: 0.3s;
+        }
+
+        .products-btn {
+            background-color: #3498db;
+        }
+
+        .products-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .logout-btn {
+            background-color: #ff4d3d;
         }
 
         .logout-btn:hover {
@@ -76,7 +92,7 @@
             padding: 0 20px;
         }
 
-        /* Compact welcome section */
+        /* Welcome section */
         .hero-card {
             background-color: white;
             border-radius: 18px;
@@ -112,7 +128,7 @@
             white-space: nowrap;
         }
 
-        /* Small statistics cards */
+        /* Statistics cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -177,7 +193,7 @@
             color: #1f3b4d;
         }
 
-        /* Quick action panel */
+        /* Quick action section */
         .action-section {
             background-color: white;
             padding: 24px;
@@ -274,7 +290,11 @@
             }
 
             .navbar {
-                padding: 0 20px;
+                height: auto;
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 14px;
+                align-items: flex-start;
             }
         }
     </style>
@@ -288,7 +308,10 @@
             <h2>Admin Panel</h2>
         </div>
 
-        <a href="/logout/" class="logout-btn">Logout</a>
+        <div class="nav-actions">
+            <a href="/admin-products/" class="nav-btn products-btn">Products</a>
+            <a href="/logout/" class="nav-btn logout-btn">Logout</a>
+        </div>
     </div>
 
     <div class="container">
@@ -327,7 +350,7 @@
             <div class="stat-card">
                 <div class="stat-icon icon-orange">C</div>
                 <div class="stat-info">
-                    <h3>Cart Items</h3>
+                    <h3>Active Cart Items</h3>
                     <p>{{ total_cart_items }}</p>
                 </div>
             </div>
@@ -342,7 +365,7 @@
             <div class="action-grid">
                 <a href="/admin-products/" class="action-card blue-action">
                     <h3>Manage Products</h3>
-                    <p>View, edit, and delete all products from the product management page.</p>
+                    <p>View, edit, and delete products from the product management page.</p>
                     <div class="action-arrow">→</div>
                 </a>
 

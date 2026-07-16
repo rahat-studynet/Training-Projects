@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 
 
 class SignUpForm(forms.Form):
-    # Form fields for user registration
+    # User registration fields
     username = forms.CharField(max_length=150)
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
     def clean_username(self):
-        # Check if username already exists
+        # Check duplicate username
         username = self.cleaned_data.get('username')
 
         if User.objects.filter(username=username).exists():
@@ -19,7 +19,7 @@ class SignUpForm(forms.Form):
         return username
 
     def clean_email(self):
-        # Check if email already exists
+        # Check duplicate email
         email = self.cleaned_data.get('email')
 
         if User.objects.filter(email=email).exists():
@@ -28,7 +28,7 @@ class SignUpForm(forms.Form):
         return email
 
     def clean(self):
-        # Validate password and confirm password together
+        # Check password rules
         cleaned_data = super().clean()
 
         password = cleaned_data.get('password')
@@ -55,24 +55,21 @@ class SignUpForm(forms.Form):
         return cleaned_data
 
     def save(self):
-        # Create inactive user and wait for admin approval
-        username = self.cleaned_data.get('username')
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
-
+        # Create inactive user for admin approval
         user = User(
-            username=username,
-            email=email,
+            username=self.cleaned_data.get('username'),
+            email=self.cleaned_data.get('email'),
             is_active=False
         )
 
-        # Save encrypted password, not plain text
-        user.set_password(password)
+        # Save encrypted password
+        user.set_password(self.cleaned_data.get('password'))
         user.save()
 
         return user
-    
+
+
 class SignInForm(forms.Form):
-    # Form fields for user login
+    # User login fields
     username_or_email = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)

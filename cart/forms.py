@@ -3,7 +3,7 @@ from .models import Product
 
 
 class ProductForm(forms.ModelForm):
-    # Form for admin to create or update products
+    # Form used by admin to add or update products
     class Meta:
         model = Product
         fields = ['name', 'description', 'image', 'price', 'stock']
@@ -32,19 +32,19 @@ class ProductForm(forms.ModelForm):
         }
 
     def clean_price(self):
-        # Validate product price
+        # Price must be greater than zero
         price = self.cleaned_data.get('price')
 
-        if price <= 0:
+        if price is not None and price <= 0:
             raise forms.ValidationError("Price must be greater than 0.")
 
         return price
 
     def clean_stock(self):
-        # Validate product stock
+        # Stock cannot be negative
         stock = self.cleaned_data.get('stock')
 
-        if stock < 0:
+        if stock is not None and stock < 0:
             raise forms.ValidationError("Stock cannot be negative.")
 
         return stock

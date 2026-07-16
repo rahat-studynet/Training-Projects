@@ -20,18 +20,18 @@
             color: #333;
         }
 
-        /* Main container */
+        /* Main page container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Header section */
+        /* Top header card */
         .header-section {
             background-color: white;
             padding: 25px;
             border-radius: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,8 +40,16 @@
 
         h1 {
             color: #2c3e50;
+            font-size: 28px;
         }
 
+        .page-caption {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        /* Header buttons */
         .button-group {
             display: flex;
             gap: 10px;
@@ -72,6 +80,34 @@
             background-color: #c0392b;
         }
 
+        /* Message box */
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .message.success {
+            background-color: #eafaf1;
+            color: #1e8449;
+            border: 1px solid #abebc6;
+        }
+
+        .message.error {
+            background-color: #fdecea;
+            color: #c0392b;
+            border: 1px solid #f5b7b1;
+        }
+
+        .message.info {
+            background-color: #eaf4fc;
+            color: #21618c;
+            border: 1px solid #aed6f1;
+        }
+
         /* Product grid */
         .product-grid {
             display: grid;
@@ -85,6 +121,12 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .product-image {
@@ -122,15 +164,11 @@
             line-height: 1.5;
         }
 
-        .product-info {
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
         .price {
             color: #27ae60;
             font-weight: bold;
             font-size: 18px;
+            margin-bottom: 8px;
         }
 
         .stock {
@@ -156,6 +194,7 @@
             background-color: #27ae60;
         }
 
+        /* Empty product message */
         .empty-message {
             background-color: white;
             padding: 30px;
@@ -166,32 +205,21 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* Message box */
-        .message {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-        }
+        /* Mobile responsive */
+        @media (max-width: 700px) {
+            body {
+                padding: 20px;
+            }
 
-        .message.success {
-            background-color: #eafaf1;
-            color: #1e8449;
-            border: 1px solid #abebc6;
-        }
+            .header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
 
-        .message.error {
-            background-color: #fdecea;
-            color: #c0392b;
-            border: 1px solid #f5b7b1;
-        }
-
-        .message.info {
-            background-color: #eaf4fc;
-            color: #21618c;
-            border: 1px solid #aed6f1;
+            .button-group {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -199,8 +227,13 @@
 <body>
 
 <div class="container">
+
+    <!-- Page title and user buttons -->
     <div class="header-section">
-        <h1>Available Products</h1>
+        <div>
+            <h1>Available Products</h1>
+            <p class="page-caption">Browse products, add items to your cart, and continue to checkout.</p>
+        </div>
 
         <div class="button-group">
             <a href="/my-cart/" class="btn btn-cart">My Cart</a>
@@ -208,7 +241,7 @@
         </div>
     </div>
 
-    <!-- Show success or error messages -->
+    <!-- Success or error messages -->
     {% if messages %}
         {% for message in messages %}
             <div class="message {{ message.tags }}">
@@ -217,6 +250,7 @@
         {% endfor %}
     {% endif %}
 
+    <!-- Product cards -->
     {% if products %}
         <div class="product-grid">
             {% for product in products %}
@@ -234,8 +268,8 @@
                         {{ product.description }}
                     </p>
 
-                    <p class="product-info">
-                        <span class="price">BDT {{ product.price }}</span>
+                    <p class="price">
+                        BDT {{ product.price }}
                     </p>
 
                     <p class="stock">
@@ -253,6 +287,7 @@
             No products are available right now.
         </div>
     {% endif %}
+
 </div>
 
 </body>

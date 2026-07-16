@@ -1,4 +1,3 @@
-# Custom exception handler to intercept global API routing errors
 from rest_framework.views import exception_handler
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,11 +11,12 @@ from rest_framework.exceptions import (
     ParseError,
 )
 
+
 def custom_api_exception_handler(exc, context):
-    # Call standard DRF handler first to catch Http404 or Validations
+    # First, let DRF handle the error normally
     response = exception_handler(exc, context)
 
-    # If DRF cannot handle the error, return server error
+    # If DRF cannot handle the error
     if response is None:
         return Response({
             "success": False,
@@ -25,7 +25,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "Please contact the backend developer."
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    # 404: item not found
+    # Item not found
     if isinstance(exc, NotFound):
         return Response({
             "success": False,
@@ -34,7 +34,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "The requested item ID does not exist in the database."
         }, status=status.HTTP_404_NOT_FOUND)
 
-    # 400: wrong data type, missing field, duplicate product, invalid input
+    # Invalid input data
     if isinstance(exc, ValidationError):
         return Response({
             "success": False,
@@ -43,7 +43,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "Please check product_id, product_name, quantity, and price."
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    # 401: no token / wrong token
+    # Login/token problem
     if isinstance(exc, (AuthenticationFailed, NotAuthenticated)):
         return Response({
             "success": False,
@@ -52,7 +52,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "Please login or provide a valid authentication token."
         }, status=response.status_code)
 
-    # 403: authenticated but not allowed
+    # User is logged in but not allowed
     if isinstance(exc, PermissionDenied):
         return Response({
             "success": False,
@@ -61,7 +61,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "You do not have permission to perform this action."
         }, status=status.HTTP_403_FORBIDDEN)
 
-    # 405: wrong method
+    # Wrong HTTP method
     if isinstance(exc, MethodNotAllowed):
         return Response({
             "success": False,
@@ -70,7 +70,7 @@ def custom_api_exception_handler(exc, context):
             "suggestion": "Please use the correct HTTP method: GET, POST, PUT, PATCH, or DELETE."
         }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    # Bad JSON body
+    # Invalid JSON body
     if isinstance(exc, ParseError):
         return Response({
             "success": False,

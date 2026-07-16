@@ -20,9 +20,9 @@
             color: #333;
         }
 
-        /* Main container */
+        /* Main white card */
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             background-color: white;
             padding: 30px;
@@ -30,20 +30,38 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
+        /* Page title */
         h1 {
             color: #2c3e50;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        p {
+        .page-caption {
             color: #7f8c8d;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             line-height: 1.5;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 14px;
+            font-size: 14px;
         }
 
-        /* Table design */
+        /* Checkout note box */
+        .checkout-note {
+            background-color: #eaf4fc;
+            color: #21618c;
+            border: 1px solid #aed6f1;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        /* Table wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        /* Checkout table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -61,6 +79,25 @@
             color: #7f8c8d;
             font-size: 12px;
             text-transform: uppercase;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .product-name {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .quantity {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .stock {
+            color: #27ae60;
+            font-weight: 700;
         }
 
         /* Button row */
@@ -107,41 +144,62 @@
         .btn-logout:hover {
             background-color: #c0392b;
         }
+
+        /* Mobile responsive */
+        @media (max-width: 650px) {
+            body {
+                padding: 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 
 <body>
 
 <div class="container">
+
+    <!-- Page title -->
     <h1>Checkout</h1>
+    <p class="page-caption">Review your cart items before confirming checkout.</p>
 
-    <p>Please review your cart items before confirming checkout.</p>
+    <!-- Checkout information -->
+    <div class="checkout-note">
+        After confirmation, product stock will be reduced and your cart will be cleared.
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Available Stock</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for item in cart_items %}
+    <!-- Cart item review table -->
+    <div class="table-wrapper">
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.product.stock }}</td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Available Stock</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
 
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td class="product-name">{{ item.product.name }}</td>
+                        <td class="quantity">{{ item.quantity }}</td>
+                        <td class="stock">{{ item.product.stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Confirm checkout form -->
     <form method="POST">
         {% csrf_token %}
 
         <div class="button-row">
-            <button type="submit" class="btn btn-confirm">
+            <button type="submit" class="btn btn-confirm" onclick="return confirm('Confirm checkout now?');">
                 Confirm Checkout
             </button>
 
@@ -154,6 +212,7 @@
             </a>
         </div>
     </form>
+
 </div>
 
 </body>

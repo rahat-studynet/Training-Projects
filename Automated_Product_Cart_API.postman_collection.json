@@ -1,0 +1,363 @@
+{
+  "info": {
+    "name": "Automated Product & Cart Management System API",
+    "description": "Postman collection for testing the DRF CartItem API of the Automated Product & Cart Management System.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "token",
+      "value": "YOUR_TOKEN_HERE"
+    },
+    {
+      "key": "item_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Cart Item API",
+      "item": [
+        {
+          "name": "GET All Cart Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                ""
+              ]
+            },
+            "description": "Get all API cart items from the CartItem table."
+          }
+        },
+        {
+          "name": "POST Create Cart Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 101,\n  \"product_name\": \"Smart Watch\",\n  \"quantity\": 2,\n  \"price\": \"2500.00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                ""
+              ]
+            },
+            "description": "Create a new API cart item using JSON request body."
+          }
+        },
+        {
+          "name": "GET Single Cart Item",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{item_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "{{item_id}}",
+                ""
+              ]
+            },
+            "description": "Get a single API cart item by item ID."
+          }
+        },
+        {
+          "name": "PUT Full Update Cart Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 101,\n  \"product_name\": \"Smart Watch Updated\",\n  \"quantity\": 3,\n  \"price\": \"2600.00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{item_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "{{item_id}}",
+                ""
+              ]
+            },
+            "description": "Fully update an existing API cart item. PUT usually requires all main fields."
+          }
+        },
+        {
+          "name": "PATCH Partial Update Cart Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{item_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "{{item_id}}",
+                ""
+              ]
+            },
+            "description": "Partially update an existing API cart item. PATCH can update only selected fields."
+          }
+        },
+        {
+          "name": "DELETE Cart Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{item_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "{{item_id}}",
+                ""
+              ]
+            },
+            "description": "Delete an API cart item by item ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Validation Error - Duplicate Product ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 101,\n  \"product_name\": \"Smart Watch Duplicate\",\n  \"quantity\": 1,\n  \"price\": \"2500.00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                ""
+              ]
+            },
+            "description": "Use this request after creating a product with product_id 101. It should return a validation error because product_id is unique."
+          }
+        },
+        {
+          "name": "Validation Error - Invalid Quantity and Price",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 202,\n  \"product_name\": \"Invalid Product\",\n  \"quantity\": 0,\n  \"price\": \"0.00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                ""
+              ]
+            },
+            "description": "This request should return validation errors because quantity must be at least 1 and price must be greater than 0."
+          }
+        },
+        {
+          "name": "Authentication Error - No Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                ""
+              ]
+            },
+            "description": "This request does not include Authorization token. It should return an authentication error."
+          }
+        },
+        {
+          "name": "Not Found Error - Wrong Item ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/9999/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "9999",
+                ""
+              ]
+            },
+            "description": "This request tries to get an item that does not exist. It should return a not found error."
+          }
+        },
+        {
+          "name": "Wrong URL Error",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/item/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "item",
+                ""
+              ]
+            },
+            "description": "This request uses the wrong URL. Correct URL is /api/cart/items/."
+          }
+        }
+      ]
+    }
+  ]
+}

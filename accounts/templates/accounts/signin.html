@@ -14,32 +14,41 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Page background and center alignment */
+        /* Page background */
         body {
-            background-color: #f4f6f9;
+            background: linear-gradient(135deg, #eef3f8, #f8fbff);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px;
+            color: #333;
         }
 
-        /* Signin card design */
+        /* Signin card */
         .signin-container {
             background-color: white;
             width: 100%;
             max-width: 500px;
             padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(31, 59, 77, 0.08);
         }
 
+        /* Page title */
         h1 {
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
             text-align: center;
+        }
+
+        .page-caption {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 22px;
             border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 10px;
+            padding-bottom: 14px;
         }
 
         /* Message box */
@@ -48,6 +57,7 @@
             border-radius: 6px;
             margin-bottom: 15px;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .message.success {
@@ -60,6 +70,12 @@
             background-color: #fdecea;
             color: #c0392b;
             border: 1px solid #f5b7b1;
+        }
+
+        .message.info {
+            background-color: #eaf4fc;
+            color: #21618c;
+            border: 1px solid #aed6f1;
         }
 
         /* Form field group */
@@ -86,6 +102,13 @@
         input:focus {
             border-color: #3498db;
             outline: none;
+        }
+
+        /* Small help text */
+        .field-caption {
+            color: #95a5a6;
+            font-size: 12px;
+            margin-top: 4px;
         }
 
         /* Submit button */
@@ -137,13 +160,27 @@
         .home-link:hover {
             text-decoration: underline;
         }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .signin-container {
+                padding: 25px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
 <div class="signin-container">
+
+    <!-- Page title -->
     <h1>Sign In</h1>
+    <p class="page-caption">Login with your approved account to continue.</p>
 
     <!-- Show success or error messages -->
     {% if messages %}
@@ -161,22 +198,26 @@
         <div class="form-group">
             <label>Username or Email</label>
             {{ form.username_or_email }}
+            <p class="field-caption">Use your registered username or email address.</p>
         </div>
 
         <div class="form-group">
             <label>Password</label>
             {{ form.password }}
+            <p class="field-caption">Your account must be approved by admin before login.</p>
         </div>
 
         <button type="submit" class="btn-submit">Sign In</button>
     </form>
 
+    <!-- Signup and home links -->
     <div class="bottom-links">
         Do not have an account?
         <a href="/signup/">Sign Up</a>
     </div>
 
     <a href="/" class="home-link">Back to Home</a>
+
 </div>
 
 </body>

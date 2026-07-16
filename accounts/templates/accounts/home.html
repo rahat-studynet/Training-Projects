@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart System Home</title>
+    <title>Product Cart System</title>
 
     <style>
         /* Basic page reset */
@@ -14,51 +14,68 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Page background and center alignment */
+        /* Page background */
         body {
-            background-color: #f4f6f9;
+            background: linear-gradient(135deg, #eef3f8, #f8fbff);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px;
+            color: #333;
         }
 
-        /* Main card design */
+        /* Main home card */
         .home-container {
             background-color: white;
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             padding: 40px;
-            border-radius: 12px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(31, 59, 77, 0.08);
+        }
+
+        /* App icon */
+        .app-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 18px;
+            font-size: 26px;
+            font-weight: bold;
         }
 
         h1 {
             color: #2c3e50;
             margin-bottom: 10px;
+            font-size: 30px;
         }
 
-        p {
+        .page-caption {
             color: #7f8c8d;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             font-size: 15px;
+            line-height: 1.5;
         }
 
         /* Button common style */
         .btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             margin-bottom: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: 0.3s;
         }
 
-        /* Signup button */
         .btn-signup {
             background-color: #2ecc71;
             color: white;
@@ -68,7 +85,6 @@
             background-color: #27ae60;
         }
 
-        /* Signin button */
         .btn-signin {
             background-color: #3498db;
             color: white;
@@ -81,14 +97,22 @@
         /* Admin panel link */
         .admin-link {
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 12px;
             color: #2c3e50;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .admin-link:hover {
             text-decoration: underline;
+        }
+
+        /* Footer caption */
+        .small-caption {
+            margin-top: 22px;
+            font-size: 13px;
+            color: #95a5a6;
         }
     </style>
 </head>
@@ -96,15 +120,28 @@
 <body>
 
 <div class="home-container">
-    <h1>Welcome to Cart System</h1>
 
-    <p>Please sign up or sign in to continue.</p>
+    <!-- Application logo -->
+    <div class="app-icon">C</div>
 
+    <!-- Page title -->
+    <h1>Product Cart System</h1>
+
+    <p class="page-caption">
+        Admins can manage products, and approved users can add products to cart and checkout.
+    </p>
+
+    <!-- Main user actions -->
     <a href="/signup/" class="btn btn-signup">Create New Account</a>
-
     <a href="/signin/" class="btn btn-signin">Sign In</a>
 
+    <!-- Admin panel shortcut -->
     <a href="/admin/" class="admin-link">Admin Panel</a>
+
+    <p class="small-caption">
+        New users need admin approval before signing in.
+    </p>
+
 </div>
 
 </body>
