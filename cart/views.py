@@ -4,12 +4,13 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from rest_framework import viewsets
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .forms import ProductForm
 from .models import Product, UserCartItem, CartItem
-from .serializers import CartItemSerializer
+from .serializers import ProductSerializer, CartItemSerializer
 
 
 # ==================================================
@@ -275,6 +276,16 @@ def checkout_view(request):
 # DRF API VIEW FOR POSTMAN
 # ==================================================
 
+
+class ProductViewSet(viewsets.ModelViewSet):
+    # API viewset for admin product management with image upload
+    queryset = Product.objects.all().order_by('-created_at')
+    serializer_class = ProductSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    
 class CartItemViewSet(viewsets.ModelViewSet):
     # API viewset for Postman testing
     queryset = CartItem.objects.all()

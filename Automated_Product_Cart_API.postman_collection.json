@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Automated Product & Cart Management System API",
-    "description": "Postman collection for testing the DRF CartItem API of the Automated Product & Cart Management System.",
+    "name": "Automated Product & Cart Management System API With Image Upload",
+    "description": "Postman collection for testing Product API with image upload and CartItem API of the Automated Product & Cart Management System.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -11,7 +11,11 @@
     },
     {
       "key": "token",
-      "value": "YOUR_TOKEN_HERE"
+      "value": "YOUR_ADMIN_TOKEN_HERE"
+    },
+    {
+      "key": "product_id",
+      "value": "1"
     },
     {
       "key": "item_id",
@@ -20,7 +24,255 @@
   ],
   "item": [
     {
-      "name": "Cart Item API",
+      "name": "Product API - Main Browser Products",
+      "item": [
+        {
+          "name": "GET All Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                ""
+              ]
+            },
+            "description": "Get all products from the main Product model. These products also appear in the browser product pages."
+          }
+        },
+        {
+          "name": "POST Create Product With Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Smart Watch From Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Product added from Postman with image upload.",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "price",
+                  "value": "2500.00",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "10",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                ""
+              ]
+            },
+            "description": "Create a new product with image upload. In Postman, choose an image file manually for the image field before sending."
+          }
+        },
+        {
+          "name": "POST Create Product Without Image - JSON",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Product Without Image\",\n  \"description\": \"This product was added using raw JSON from Postman.\",\n  \"price\": \"1500.00\",\n  \"stock\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                ""
+              ]
+            },
+            "description": "Create a product without image using raw JSON."
+          }
+        },
+        {
+          "name": "GET Single Product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/{{product_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                "{{product_id}}",
+                ""
+              ]
+            },
+            "description": "Get one product by product ID."
+          }
+        },
+        {
+          "name": "PATCH Update Product Stock",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stock\": 15\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/{{product_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                "{{product_id}}",
+                ""
+              ]
+            },
+            "description": "Partially update product stock."
+          }
+        },
+        {
+          "name": "PUT Full Update Product Without Image",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"Fully updated product from Postman.\",\n  \"price\": \"2800.00\",\n  \"stock\": 20\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/{{product_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                "{{product_id}}",
+                ""
+              ]
+            },
+            "description": "Fully update product data without image using JSON."
+          }
+        },
+        {
+          "name": "DELETE Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/{{product_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                "{{product_id}}",
+                ""
+              ]
+            },
+            "description": "Delete a product by product ID. Use carefully because deleted product will also disappear from browser product pages."
+          }
+        }
+      ]
+    },
+    {
+      "name": "CartItem API - Old Postman Testing API",
       "item": [
         {
           "name": "GET All Cart Items",
@@ -143,7 +395,7 @@
                 ""
               ]
             },
-            "description": "Fully update an existing API cart item. PUT usually requires all main fields."
+            "description": "Fully update an existing API cart item."
           }
         },
         {
@@ -179,7 +431,7 @@
                 ""
               ]
             },
-            "description": "Partially update an existing API cart item. PATCH can update only selected fields."
+            "description": "Partially update an existing API cart item."
           }
         },
         {
@@ -215,7 +467,42 @@
       "name": "Error Testing",
       "item": [
         {
-          "name": "Validation Error - Duplicate Product ID",
+          "name": "Product Permission Error - Regular User Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Permission Test Product\",\n  \"description\": \"Only admin token should create this product.\",\n  \"price\": \"1000.00\",\n  \"stock\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/products/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "products",
+                ""
+              ]
+            },
+            "description": "Use a regular user token to test permission denied error for product creation."
+          }
+        },
+        {
+          "name": "CartItem Validation Error - Duplicate Product ID",
           "request": {
             "method": "POST",
             "header": [
@@ -246,42 +533,7 @@
                 ""
               ]
             },
-            "description": "Use this request after creating a product with product_id 101. It should return a validation error because product_id is unique."
-          }
-        },
-        {
-          "name": "Validation Error - Invalid Quantity and Price",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Token {{token}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"product_id\": 202,\n  \"product_name\": \"Invalid Product\",\n  \"quantity\": 0,\n  \"price\": \"0.00\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/cart/items/",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "cart",
-                "items",
-                ""
-              ]
-            },
-            "description": "This request should return validation errors because quantity must be at least 1 and price must be greater than 0."
+            "description": "Use this request after creating a CartItem with product_id 101. It should return a validation error because product_id is unique."
           }
         },
         {
@@ -290,14 +542,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/cart/items/",
+              "raw": "{{base_url}}/api/cart/products/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "cart",
-                "items",
+                "products",
                 ""
               ]
             },
@@ -305,7 +557,7 @@
           }
         },
         {
-          "name": "Not Found Error - Wrong Item ID",
+          "name": "Not Found Error - Wrong Product ID",
           "request": {
             "method": "GET",
             "header": [
@@ -316,19 +568,19 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/cart/items/9999/",
+              "raw": "{{base_url}}/api/cart/products/9999/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "cart",
-                "items",
+                "products",
                 "9999",
                 ""
               ]
             },
-            "description": "This request tries to get an item that does not exist. It should return a not found error."
+            "description": "This request tries to get a product that does not exist."
           }
         },
         {
@@ -343,18 +595,18 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/cart/item/",
+              "raw": "{{base_url}}/api/cart/product/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "cart",
-                "item",
+                "product",
                 ""
               ]
             },
-            "description": "This request uses the wrong URL. Correct URL is /api/cart/items/."
+            "description": "This request uses the wrong URL. Correct URL is /api/cart/products/."
           }
         }
       ]
