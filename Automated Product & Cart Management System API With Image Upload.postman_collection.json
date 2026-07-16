@@ -1,27 +1,12 @@
 {
   "info": {
+    "_postman_id": "2c98f020-8a70-44cd-8fd4-ad304456766b",
     "name": "Automated Product & Cart Management System API With Image Upload",
     "description": "Postman collection for testing Product API with image upload and CartItem API of the Automated Product & Cart Management System.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56473368",
+    "_collection_link": "https://go.postman.co/collection/56473368-2c98f020-8a70-44cd-8fd4-ad304456766b?source=collection_link"
   },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://127.0.0.1:8000"
-    },
-    {
-      "key": "token",
-      "value": "YOUR_ADMIN_TOKEN_HERE"
-    },
-    {
-      "key": "product_id",
-      "value": "1"
-    },
-    {
-      "key": "item_id",
-      "value": "1"
-    }
-  ],
   "item": [
     {
       "name": "Product API - Main Browser Products",
@@ -50,7 +35,8 @@
               ]
             },
             "description": "Get all products from the main Product model. These products also appear in the browser product pages."
-          }
+          },
+          "response": []
         },
         {
           "name": "POST Create Product With Image",
@@ -79,7 +65,7 @@
                 {
                   "key": "image",
                   "type": "file",
-                  "src": []
+                  "value": null
                 },
                 {
                   "key": "price",
@@ -106,7 +92,8 @@
               ]
             },
             "description": "Create a new product with image upload. In Postman, choose an image file manually for the image field before sending."
-          }
+          },
+          "response": []
         },
         {
           "name": "POST Create Product Without Image - JSON",
@@ -141,7 +128,8 @@
               ]
             },
             "description": "Create a product without image using raw JSON."
-          }
+          },
+          "response": []
         },
         {
           "name": "GET Single Product",
@@ -168,7 +156,8 @@
               ]
             },
             "description": "Get one product by product ID."
-          }
+          },
+          "response": []
         },
         {
           "name": "PATCH Update Product Stock",
@@ -204,7 +193,8 @@
               ]
             },
             "description": "Partially update product stock."
-          }
+          },
+          "response": []
         },
         {
           "name": "PUT Full Update Product Without Image",
@@ -240,7 +230,8 @@
               ]
             },
             "description": "Fully update product data without image using JSON."
-          }
+          },
+          "response": []
         },
         {
           "name": "DELETE Product",
@@ -267,7 +258,8 @@
               ]
             },
             "description": "Delete a product by product ID. Use carefully because deleted product will also disappear from browser product pages."
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -298,7 +290,8 @@
               ]
             },
             "description": "Get all API cart items from the CartItem table."
-          }
+          },
+          "response": []
         },
         {
           "name": "POST Create Cart Item",
@@ -333,7 +326,8 @@
               ]
             },
             "description": "Create a new API cart item using JSON request body."
-          }
+          },
+          "response": []
         },
         {
           "name": "GET Single Cart Item",
@@ -360,7 +354,8 @@
               ]
             },
             "description": "Get a single API cart item by item ID."
-          }
+          },
+          "response": []
         },
         {
           "name": "PUT Full Update Cart Item",
@@ -396,7 +391,8 @@
               ]
             },
             "description": "Fully update an existing API cart item."
-          }
+          },
+          "response": []
         },
         {
           "name": "PATCH Partial Update Cart Item",
@@ -432,7 +428,8 @@
               ]
             },
             "description": "Partially update an existing API cart item."
-          }
+          },
+          "response": []
         },
         {
           "name": "DELETE Cart Item",
@@ -459,7 +456,8 @@
               ]
             },
             "description": "Delete an API cart item by item ID."
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -499,7 +497,8 @@
               ]
             },
             "description": "Use a regular user token to test permission denied error for product creation."
-          }
+          },
+          "response": []
         },
         {
           "name": "CartItem Validation Error - Duplicate Product ID",
@@ -534,7 +533,8 @@
               ]
             },
             "description": "Use this request after creating a CartItem with product_id 101. It should return a validation error because product_id is unique."
-          }
+          },
+          "response": []
         },
         {
           "name": "Authentication Error - No Token",
@@ -554,7 +554,8 @@
               ]
             },
             "description": "This request does not include Authorization token. It should return an authentication error."
-          }
+          },
+          "response": []
         },
         {
           "name": "Not Found Error - Wrong Product ID",
@@ -581,7 +582,8 @@
               ]
             },
             "description": "This request tries to get a product that does not exist."
-          }
+          },
+          "response": []
         },
         {
           "name": "Wrong URL Error",
@@ -607,9 +609,156 @@
               ]
             },
             "description": "This request uses the wrong URL. Correct URL is /api/cart/products/."
-          }
+          },
+          "response": []
         }
       ]
+    },
+    {
+      "name": "Auth API",
+      "item": [
+        {
+          "name": "POST User Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"test4\",\r\n  \"email\": \"test4@gmail.com\",\r\n  \"password\": \"Test@1234\",\r\n  \"confirm_password\": \"Test@1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/accounts/signup/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "signup",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST User Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username_or_email\": \"test4\",\r\n  \"password\": \"Test@1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/accounts/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username_or_email\": \"admin\",\r\n  \"password\": \"admin1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/accounts/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "token",
+      "value": "YOUR_ADMIN_TOKEN_HERE"
+    },
+    {
+      "key": "product_id",
+      "value": "1"
+    },
+    {
+      "key": "item_id",
+      "value": "1"
     }
   ]
 }
